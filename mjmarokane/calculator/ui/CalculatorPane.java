@@ -281,15 +281,15 @@ public class CalculatorPane extends StackPane{
 	//get the answer from the calculator library and update the display
 	private void updateAnswer()
 	{
-		if(NumericalCalculator.calculate(expressionString) % 1 == 0)
+		if(NumericalCalculator.calculate(expressionString).doubleValue() % 1 == 0)
 		{
-			answerText.setText("= " + (int)(NumericalCalculator.calculate(expressionString)));
+			answerText.setText("= " + (NumericalCalculator.calculate(expressionString).intValue()));
 		}
 		else
 		{
-			answerText.setText("= " + NumericalCalculator.calculate(expressionString));
+			answerText.setText("= " + NumericalCalculator.calculate(expressionString).toString());
 		}
 		
-		System.out.println("Answer: " + NumericalCalculator.calculate(expressionString));
+		System.out.println("Answer: " + NumericalCalculator.calculate(expressionString).toString());
 	}
 }

@@ -3,6 +3,7 @@ package mjmarokane.calculator.model;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.math.BigDecimal;
 
 /**
  * A class representing a calculator
@@ -15,7 +16,7 @@ public class NumericalCalculator
 	private static Pattern PTN_NUMBER = Pattern.compile("(\\d+.\\d+)|\\d+");
 	private static Pattern PTN_OPERATOR = Pattern.compile("\\+|\\-|\\*|\\/");
 	
-	private static double[] dblNumbers = null;
+	private static BigDecimal[] dblNumbers = null;
 	private static char[] chOperators = null;
 	
 	/**
@@ -34,9 +35,9 @@ public class NumericalCalculator
 	 * </p>
 	 * @return Answer for the numeric mathametical expression provided.
 	 */
-	public static double calculate(String strExpression)
+	public static BigDecimal calculate(String strExpression)
 	{
-		dblNumbers = new double[1];
+		dblNumbers = new BigDecimal[1];
 		chOperators = new char[1];
 		
 		//convert the expression from string to arrays of decimals and operators
@@ -83,7 +84,7 @@ public class NumericalCalculator
 			//if the token is a decimal
 			if (mtrNumber.matches())
 			{
-				double dblNumber = Double.valueOf(strToken);
+				BigDecimal dblNumber = new BigDecimal(strToken);
 				addDoubleToArray(dblNumber);
 			}
 			
@@ -108,7 +109,7 @@ public class NumericalCalculator
 		while(intOperator != -1)
 		{
 			//create temporary array to store the state of the main arrays to be converted to
-			double[] dblNewNumbers = new double[dblNumbers.length - 1];
+			BigDecimal[] dblNewNumbers = new BigDecimal[dblNumbers.length - 1];
 			char[] chNewOperators = new char[chOperators.length - 1];
 			
 			for (int i = 0; i < dblNumbers.length; i++)
@@ -122,13 +123,13 @@ public class NumericalCalculator
 				else if (i == intOperator)
 				{
 					if (chOperator == '/')
-						{ dblNewNumbers[i] = dblNumbers[i] / dblNumbers[i + 1]; }
+						{ dblNewNumbers[i] = dblNumbers[i].divide(dblNumbers[i + 1]); }
 					else if (chOperator == '*')
-						{ dblNewNumbers[i] = dblNumbers[i] * dblNumbers[i + 1]; }
+						{ dblNewNumbers[i] = dblNumbers[i].multiply(dblNumbers[i + 1]); }
 					else if (chOperator == '+')
-						{ dblNewNumbers[i] = dblNumbers[i] + dblNumbers[i + 1]; }
+						{ dblNewNumbers[i] = dblNumbers[i].add(dblNumbers[i + 1]); }
 					else if (chOperator == '-')
-						{ dblNewNumbers[i] = dblNumbers[i] - dblNumbers[i + 1]; }
+						{ dblNewNumbers[i] = dblNumbers[i].subtract(dblNumbers[i + 1]); }
 					chNewOperators[i] = chOperators[i + 1];
 				}
 				else if (i > intOperator & i < dblNumbers.length - 1)
@@ -172,10 +173,10 @@ public class NumericalCalculator
 	}
 	
 	//adds a double at the end of an array of the array of doubles(dblNumbers).
-	private static void addDoubleToArray(double dblNumber)
+	private static void addDoubleToArray(BigDecimal dblNumber)
 	{
 		dblNumbers[dblNumbers.length - 1] = dblNumber;
-		double[] dblNewNumbers = new double[dblNumbers.length + 1];
+		BigDecimal[] dblNewNumbers = new BigDecimal[dblNumbers.length + 1];
 		System.arraycopy(dblNumbers, 0, dblNewNumbers, 0, dblNumbers.length); 
 		dblNumbers = dblNewNumbers;
 	}
