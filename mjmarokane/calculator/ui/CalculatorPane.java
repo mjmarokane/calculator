@@ -96,10 +96,10 @@ public class CalculatorPane extends StackPane{
 		equalButton.setPrefSize(OPERATOR_BUTTON_WIDTH, OPERATOR_BUTTON_HIEGHT);
 		equalButton.setStyle("-fx-text-fill: white; -fx-background-color: #0000ff; "
 				+ "-fx-background-radius: " + DEFAULT_BUTTON_RADIUS + "px;");
-		Button multiplyButton = new Button("x");
+		Button multiplyButton = new Button(String.valueOf('\u00D7'));
 		multiplyButton.setPrefSize(OPERATOR_BUTTON_WIDTH, OPERATOR_BUTTON_HIEGHT);
 		multiplyButton.setStyle(strOpButtonStyle);
-		Button devideButton = new Button(String.valueOf('/'));
+		Button devideButton = new Button(String.valueOf('\u00F7'));
 		devideButton.setPrefSize(OPERATOR_BUTTON_WIDTH, OPERATOR_BUTTON_HIEGHT);
 		devideButton.setStyle(strOpButtonStyle);
 		Button addButton = new Button("+");
@@ -263,7 +263,17 @@ public class CalculatorPane extends StackPane{
 	//action when an operator is clicked
 	private void clickedMathOperator(char chOperator)
 	{
-		expressionText.setText(expressionText.getText() + ' ' + chOperator + ' ');
+		switch(chOperator) {	
+		case '/':
+			expressionText.setText(expressionText.getText() + ' ' + String.valueOf('\u00F7') + ' ');
+			break;
+		case '*':
+			expressionText.setText(expressionText.getText() + ' ' + String.valueOf('\u00D7') + ' ');
+			break;
+		default: 
+			expressionText.setText(expressionText.getText() + ' ' + chOperator + ' ');
+		}
+			
 		expressionString += " " + chOperator + " ";
 		System.out.println("Expression: " + expressionString);
 		//clear the previous answer
